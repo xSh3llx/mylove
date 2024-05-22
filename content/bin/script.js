@@ -25,8 +25,8 @@ noButton.addEventListener('click', () => {
         surpriseText.textContent = texts[index];
         surpriseDiv.classList.remove('hidden');
     } else {
-        const xMargin = 1200; // Задаем диапазон по оси X
-        const yMargin = 50; // Задаем диапазон по оси Y
+        const xMargin = 500; 
+        const yMargin = 50; 
         const x = Math.floor(Math.random() * xMargin);
         const y = Math.floor(Math.random() * yMargin);
         noButton.style.position = 'absolute';
