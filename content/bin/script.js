@@ -25,7 +25,7 @@ noButton.addEventListener('click', () => {
         surpriseText.textContent = texts[index];
         surpriseDiv.classList.remove('hidden');
     } else {
-        const xMargin = 500; 
+        const xMargin = 300; 
         const yMargin = 50; 
         const x = Math.floor(Math.random() * xMargin);
         const y = Math.floor(Math.random() * yMargin);
