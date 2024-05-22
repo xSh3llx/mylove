@@ -1,0 +1,62 @@
+body {
+    font-family: 'Arial, sans-serif';
+    background-color: #ffe6e6;
+    color: #333;
+    text-align: center;
+    padding: 50px;
+    margin: 0;
+    position: relative;
+}
+
+.hello-kitty {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.hello-kitty img {
+    width: 100px; /* Zmień rozmiar w razie potrzeby */
+}
+
+h1 {
+    color: #ff4d4d;
+    margin-top: 100px; /* Aby nagłówek nie nakładał się na obrazek */
+}
+
+.buttons {
+    margin-top: 50px;
+    position: relative;
+}
+
+button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e63946;
+}
+
+button:active {
+    background-color: #c21825;
+}
+
+.hidden {
+    display: none;
+}
+
+#surprise {
+    margin-top: 50px;
+}
+
+#surprise img {
+    max-width: 20%;
+    border-radius: 10px;
+}
