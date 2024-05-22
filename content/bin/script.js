@@ -5,15 +5,15 @@ const surpriseImage = document.getElementById('surpriseImage');
 const surpriseText = document.getElementById('surpriseText');
 
 const images = [
-    './content/img/1.jpg',
-    './content/img/2.jpg',
-    './content/img/3.jpg'
+    '../surprise_images/surprise1.jpg', // Путь к первому сюрпризному изображению
+    '../surprise_images/surprise2.jpg', // Путь ко второму сюрпризному изображению
+    '../surprise_images/surprise3.jpg'  // Путь к третьему сюрпризному изображению
 ];
 
 const texts = [
-    'O co chodzi...',
-    'Marta w sensie nie?',
-    'Aha.. >:('
+    'Niespodzianka po 5 kliknięciach!',
+    'Niespodzianka po 10 kliknięciach!',
+    'Niespodzianka po 15 kliknięciach!'
 ];
 
 noButton.addEventListener('click', () => {
@@ -25,8 +25,14 @@ noButton.addEventListener('click', () => {
         surpriseText.textContent = texts[index];
         surpriseDiv.classList.remove('hidden');
     } else {
-        const xMargin = 100; 
-        const yMargin = 50; 
+        let xMargin, yMargin;
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            xMargin = window.innerWidth - noButton.offsetWidth;
+            yMargin = window.innerHeight - noButton.offsetHeight - 20; // Ограничиваем по оси Y, учитывая высоту кнопки и добавляем отступ
+        } else {
+            xMargin = document.body.clientWidth - noButton.offsetWidth;
+            yMargin = document.body.clientHeight - noButton.offsetHeight - 20; // Ограничиваем по оси Y, учитывая высоту кнопки и добавляем отступ
+        }
         const x = Math.floor(Math.random() * xMargin);
         const y = Math.floor(Math.random() * yMargin);
         noButton.style.position = 'absolute';
