@@ -5,15 +5,15 @@ const surpriseImage = document.getElementById('surpriseImage');
 const surpriseText = document.getElementById('surpriseText');
 
 const images = [
-    '../surprise_images/surprise1.jpg', // Путь к первому сюрпризному изображению
-    '../surprise_images/surprise2.jpg', // Путь ко второму сюрпризному изображению
-    '../surprise_images/surprise3.jpg'  // Путь к третьему сюрпризному изображению
+    './content/img/1.jpg', // Путь к первому сюрпризному изображению
+    './content/img/2.jpg', // Путь ко второму сюрпризному изображению
+    './content/img/3.jpg'  // Путь к третьему сюрпризному изображению
 ];
 
 const texts = [
-    'Niespodzianka po 5 kliknięciach!',
-    'Niespodzianka po 10 kliknięciach!',
-    'Niespodzianka po 15 kliknięciach!'
+    'Aha... ',
+    'Czemu nie?!?!?!',
+    'Zaraz po dupie dostaniesz! >:('
 ];
 
 noButton.addEventListener('click', () => {
