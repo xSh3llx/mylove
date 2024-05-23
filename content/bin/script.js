@@ -25,18 +25,23 @@ noButton.addEventListener('click', () => {
         surpriseText.textContent = texts[index];
         surpriseDiv.classList.remove('hidden');
     } else {
-        let xMargin, yMargin;
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            xMargin = window.innerWidth - noButton.offsetWidth;
-            yMargin = window.innerHeight - noButton.offsetHeight - 20; // Ограничиваем по оси Y, учитывая высоту кнопки и добавляем отступ
-        } else {
-            xMargin = document.body.clientWidth - noButton.offsetWidth;
-            yMargin = document.body.clientHeight - noButton.offsetHeight - 20; // Ограничиваем по оси Y, учитывая высоту кнопки и добавляем отступ
-        }
+        const xMargin = document.body.clientWidth - noButton.offsetWidth;
+        const yMargin = document.body.clientHeight - noButton.offsetHeight - 20; // Ограничиваем по оси Y, учитывая высоту кнопки и добавляем отступ
         const x = Math.floor(Math.random() * xMargin);
-        const y = Math.floor(Math.random() * yMargin);
         noButton.style.position = 'absolute';
         noButton.style.left = `${x}px`;
-        noButton.style.top = `${y}px`;
     }
 });
+
+// Создание сердечек
+const heartsContainer = document.querySelector('.hearts');
+const numHearts = 50;
+
+for (let i = 0; i < numHearts; i++) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = `${Math.random() * 100}%`;
+    heart.style.animationDuration = `${2 + Math.random() * 3}s`; // Длительность анимации от 2 до 5 секунд
+    heart.style.animationDelay = `${Math.random() * 5}s`;
+    heartsContainer.appendChild(heart);
+}

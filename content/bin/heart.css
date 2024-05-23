@@ -8,69 +8,12 @@ body {
     position: relative;
     overflow: hidden;
 }
-
-.hello-kitty {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.hello-kitty img {
-    width: 100px;
-}
-
 h1 {
     color: #ff4d4d;
     margin-top: 100px;
     z-index: 2;
     position: relative;
 }
-
-.buttons {
-    margin-top: 50px;
-    position: relative;
-    z-index: 3;
-}
-
-button {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    margin: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    z-index: 3;
-}
-
-button:hover {
-    background-color: #e63946;
-    z-index: 3;
-}
-
-button:active {
-    background-color: #c21825;
-    z-index: 3;
-}
-
-.hidden {
-    display: none;
-}
-
-#surprise {
-    margin-top: 50px;
-    z-index: 1;
-    position: relative;
-}
-
-#surprise img {
-    width: 200px;
-    height: auto;
-    border-radius: 10px;
-}
-
 .hearts {
     position: absolute;
     height: 100vh; /* 100% высоты экрана */
