@@ -1,16 +1,20 @@
-<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I love you Marta!!!</title>
-    <link rel="stylesheet" href="./content/bin/style.css">
+    <title>Walentynka - Video</title>
+    <link rel="stylesheet" href="hk.css">
 </head>
 <body>
-
-    <h1>Kocham cie!!!!!</h1>
-    <video width="320" height="240" controls>
-        <source src="./content/video/hellok.mp4" type="video/mp4">
-      hello-kitty
-      </video>
+    <div class="video-container">
+        <video id="valentine-video" autoplay muted controls>
+            <source src="path/to/your/video.mp4" type="video/mp4">
+            Twoja przeglądarka nie obsługuje tagu wideo.
+        </video>
+    </div>
+    <script>
+        const video = document.getElementById('valentine-video');
+        video.play();
+    </script>
 </body>
+</html>
