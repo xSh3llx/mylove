@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello-Kitty</title>
-    <link rel="stylesheet" href="hk.css">
+    <link rel="stylesheet" href="./content/bin/heart.css">
+    <link rel="stylesheet" href="./content/bin/hk.css">
 </head>
 <body>
+    <div class="hello-kitty">
+        <a href="./index.html"><img src="./content/img/hk.png" alt="Hello Kitty"></a>
+    </div>
     <div class="video-container">
         <video id="valentine-video" autoplay loop>
-            <source src="./hellok.mp4".mp4" type="video/mp4">
+            <source src="./content/bin/hellok.mp4".mp4" type="video/mp4">
             Twoja przeglądarka nie obsługuje tagu wideo.
         </video>
     </div>
+   
     <script>
         const video = document.getElementById('valentine-video');
         video.play();

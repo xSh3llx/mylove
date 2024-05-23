@@ -73,3 +73,13 @@ h1, .buttons, #surprise {
     z-index: 2;
     position: relative;
 }
+
+.hello-kitty {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.hello-kitty img {
+    width: 100px;
+}
