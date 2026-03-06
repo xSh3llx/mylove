@@ -5,7 +5,7 @@
 }
 
 body { 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
     background-color: var(--bg);
     margin: 0;
     display: flex;
@@ -14,7 +14,7 @@ body {
     height: 100vh;
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
-    padding: env(safe-area-inset-top) env(safe-area-inset-bottom);
+    touch-action: none;
 }
 
 .container { 
@@ -33,22 +33,21 @@ body {
 
 .hidden { display: none; transform: scale(0.9) translateY(20px); opacity: 0; }
 
-h1 { color: var(--pink); font-size: 22px; font-weight: 800; margin-bottom: 15px; }
+h1 { color: var(--pink); font-size: 24px; font-weight: 800; margin-bottom: 15px; }
 
 .btn { 
     background: linear-gradient(135deg, var(--pink), var(--accent));
     color: white; border: none; padding: 18px; border-radius: 20px;
-    font-size: 17px; font-weight: 700; width: 100%; margin-top: 20px;
+    font-size: 18px; font-weight: 700; width: 100%; margin-top: 20px;
     box-shadow: 0 10px 20px rgba(255, 77, 148, 0.3);
+    -webkit-appearance: none;
 }
-
-.btn.secondary { background: #eee; color: #555; box-shadow: none; font-size: 14px; }
 
 .reason { 
     background: #fff0f5; margin: 15px 0; padding: 20px;
     border-radius: 20px; font-size: 16px; border: 2px dashed var(--pink);
     cursor: pointer; min-height: 50px; display: flex; align-items: center; justify-content: center;
-    color: #444; line-height: 1.4;
+    color: #444; touch-action: manipulation; -webkit-user-select: none;
 }
 
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
@@ -56,7 +55,7 @@ h1 { color: var(--pink); font-size: 22px; font-weight: 800; margin-bottom: 15px;
 .card-game { 
     aspect-ratio: 1/1; background: var(--pink); border-radius: 15px;
     display: flex; justify-content: center; align-items: center;
-    font-size: 24px; color: white; transition: transform 0.2s;
+    font-size: 24px; color: white;
 }
 
 .card-game.flipped { background: white; border: 2px solid var(--pink); color: var(--pink); transform: rotateY(180deg); }
@@ -65,12 +64,11 @@ h1 { color: var(--pink); font-size: 22px; font-weight: 800; margin-bottom: 15px;
     position: relative; width: 250px; height: 150px; margin: 20px auto; 
     background: #fff; border-radius: 20px; overflow: hidden; 
     display: flex; justify-content: center; align-items: center;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
 }
 
 .scratch-text { font-size: 20px; font-weight: 900; color: var(--accent); }
 
-canvas#scratch-canvas { position: absolute; top: 0; left: 0; touch-action: none; cursor: crosshair; }
+canvas#scratch-canvas { position: absolute; top: 0; left: 0; touch-action: none; }
 
 #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 
@@ -83,4 +81,3 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; touch-action: none;
 }
 
 .emoji-header { font-size: 50px; margin-bottom: 10px; }
-.signature { margin-top: 20px; font-style: italic; color: #888; font-size: 13px; }
