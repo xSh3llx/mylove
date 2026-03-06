@@ -34,8 +34,10 @@ function handleCompliment(e) {
 
 window.onload = () => {
     const box = document.getElementById('compliment-box');
-    box.addEventListener('touchstart', handleCompliment, {passive: false});
-    box.addEventListener('click', handleCompliment);
+    if(box) {
+        box.addEventListener('touchstart', handleCompliment, {passive: false});
+        box.addEventListener('click', handleCompliment);
+    }
 
     const container = document.getElementById('particles-container');
     const images = ['1.png', '2.png', '3.png'];
@@ -58,13 +60,16 @@ function initGame() {
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
     icons.sort(() => Math.random() - 0.5);
+    
     icons.forEach(icon => {
         const card = document.createElement('div');
         card.className = 'card-game';
         card.dataset.icon = icon;
         card.innerHTML = '?';
-        const flipAction = () => {
-            if (flipped.length < 2 && !card.classList.contains('flipped')) {
+        
+        const flipAction = (e) => {
+            if (e) e.preventDefault();
+            if (flipped.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
                 vibrate();
                 card.classList.add('flipped');
                 card.innerHTML = card.dataset.icon;
@@ -72,8 +77,9 @@ function initGame() {
                 if (flipped.length === 2) setTimeout(checkMatch, 600);
             }
         };
+
+        card.addEventListener('touchstart', flipAction, {passive: false});
         card.addEventListener('click', flipAction);
-        card.addEventListener('touchstart', (e) => { e.preventDefault(); flipAction(); });
         grid.appendChild(card);
     });
 }
@@ -82,11 +88,13 @@ let flipped = [];
 function checkMatch() {
     if (flipped[0].dataset.icon === flipped[1].dataset.icon) {
         flipped.forEach(c => {
+            c.classList.add('matched');
             c.style.backgroundColor = '#4caf50';
-            setTimeout(() => c.style.visibility = 'hidden', 300);
         });
-        if (document.querySelectorAll('.card-game:not([style*="hidden"])').length === 0) {
-            setTimeout(() => next(4), 500);
+        const totalMatched = document.querySelectorAll('.card-game.matched').length;
+        if (totalMatched === 6) {
+            vibrate();
+            setTimeout(() => next(4), 800);
         }
     } else {
         flipped.forEach(c => {
