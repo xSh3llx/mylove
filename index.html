@@ -2,25 +2,41 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I love you Marta!!!</title>
-    <link rel="stylesheet" href="./content/bin/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dla Ciebie ✨</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="hearts">
-    <div class="hello-kitty">
-        <a href="./hk.html"><img src="./content/img/hk.png" alt="Hello Kitty"></a>
+
+    <div id="s1" class="container">
+        <div class="hearts">🌸</div>
+        <h1>Cześć, kochana!</h1>
+        <p>Stworzyłem tę małą stronę specjalnie dla Ciebie z okazji 8 marca. Jesteś gotowa?</p>
+        <button class="btn" onclick="next(2)">Otwórz niespodziankę</button>
     </div>
+
+    <div id="s2" class="container hidden">
+        <h1>Dlaczego jesteś super?</h1>
+        <div class="reason">🌟 Zawsze wspierasz w każdej sytuacji</div>
+        <div class="reason">💖 Masz najfajniejszą energię na świecie</div>
+        <div class="reason">😂 Twoje żarty to czyste złoto</div>
+        <div class="reason">👑 Po prostu jesteś najlepszą przyjaciółką!</div>
+        <button class="btn" onclick="next(3)">Zagrajmy w coś!</button>
     </div>
-    <h1>Czy będziemy zawsze razem?</h1>
-    <div class="buttons">
-        <a href="./Yes.html"><button class="yes-button">Tak</button></a>
-        <button class="no-button" id="noButton">Nie</button>
+
+    <div id="s3" class="container hidden">
+        <h1>Znajdź pary!</h1>
+        <p>Dopasuj wszystkie wiosenne symbole</p>
+        <div class="grid" id="grid"></div>
     </div>
-    <div id="surprise" class="hidden">
-        <img id="surpriseImage" src="" alt="Surprise Image">
-        <p id="surpriseText"></p>
+
+    <div id="s4" class="container hidden">
+        <div class="hearts">🥳</div>
+        <h1>Najlepszego!</h1>
+        <p>Wszystkiego najlepszego z okazji Dnia Kobiet! Niech ten dzień będzie tak wspaniały, jak Ty. Ściskam mocno! 🤗</p>
+        <button class="btn" onclick="location.reload()">Jeszcze raz?</button>
     </div>
-    <script src="./content/bin/script.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
