@@ -29,49 +29,68 @@ function handleComp(e) {
     const box = document.getElementById('compliment-box');
     box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
     compCount++;
-    if (compCount >= 3) document.getElementById('btn-to-scratch').classList.remove('hidden');
+    if (compCount >= 3) {
+        const btn = document.getElementById('btn-to-scratch');
+        if (btn) btn.classList.remove('hidden');
+    }
 }
 
 window.onload = () => {
     const box = document.getElementById('compliment-box');
     if (box) {
-        box.addEventListener('touchstart', handleComp);
+        box.addEventListener('touchstart', handleComp, {passive: false});
         box.addEventListener('click', handleComp);
     }
+
+    // АНИМАЦИЯ КОТИКОВ (HELLO KITTY)
     const container = document.getElementById('particles-container');
-    const imgs = ['1.png', '2.png', '3.png'];
-    for (let i = 0; i < 10; i++) {
+    const imgs = ['1.png', '2.png', '3.png']; 
+    
+    for (let i = 0; i < 12; i++) {
         setTimeout(() => {
             const img = document.createElement('img');
             img.src = imgs[Math.floor(Math.random() * imgs.length)];
             img.className = 'particle';
-            img.style.width = '45px';
+            // Рандомные размеры и позиции
+            const size = Math.random() * 20 + 40;
+            img.style.width = size + 'px';
             img.style.left = Math.random() * 90 + 'vw';
-            img.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            img.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            img.style.animationDelay = (Math.random() * 5) + 's';
             container.appendChild(img);
-        }, i * 500);
+        }, i * 600);
     }
 };
 
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    
     ctx.fillStyle = '#d3d3d3';
     ctx.fillRect(0, 0, 250, 150);
     
+    let totalErased = 0;
+
     const scratch = (e) => {
         const rect = canvas.getBoundingClientRect();
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
         const x = clientX - rect.left;
         const y = clientY - rect.top;
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
         
-        // Показываем кнопку перехода, когда стерто достаточно
-        if (Math.random() > 0.96) document.getElementById('btn-to-final').classList.remove('hidden');
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath(); 
+        ctx.arc(x, y, 25, 0, Math.PI * 2); 
+        ctx.fill();
+        
+        totalErased++;
+        if (totalErased > 40) {
+            const btn = document.getElementById('btn-to-final');
+            if (btn) btn.classList.remove('hidden');
+        }
     };
     
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, {passive: false});
     canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
 }
