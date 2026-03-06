@@ -1,18 +1,36 @@
-const vibrate = () => window.navigator.vibrate && window.navigator.vibrate(40);
+// Функция вибрации для iPhone и Android
+const vibrate = () => {
+    if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(40);
+    }
+};
 
+// Переключение экранов
 function next(num) {
     vibrate();
-    document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
-    setTimeout(() => {
-        const target = document.getElementById('s' + num);
-        if(target) {
+    
+    // Скрываем все контейнеры
+    document.querySelectorAll('.container').forEach(c => {
+        c.classList.add('hidden');
+        c.style.display = 'none'; 
+    });
+    
+    // Находим нужный экран
+    const target = document.getElementById('s' + num);
+    if (target) {
+        target.style.display = 'block';
+        // Небольшая задержка, чтобы анимация появления сработала плавно
+        setTimeout(() => {
             target.classList.remove('hidden');
-            if(num === 3) initGame();
-            if(num === 4) initScratch();
-        }
-    }, 400);
+        }, 50);
+        
+        // Запуск специфических функций для экранов
+        if (num === 3) initGame();
+        if (num === 4) initScratch();
+    }
 }
 
+// --- ГЕНЕРАТОР КОМПЛИМЕНТОВ ---
 const compliments = [
     "Wiki, Twoje wsparcie jest nieocenione! ❤️",
     "Wiki, masz najpiękniejszy uśmiech! 😊",
@@ -26,21 +44,31 @@ let compCount = 0;
 function handleCompliment(e) {
     if (e) e.preventDefault();
     vibrate();
+    
     const box = document.getElementById('compliment-box');
-    box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
+    const randomComp = compliments[Math.floor(Math.random() * compliments.length)];
+    
+    box.innerText = randomComp;
     compCount++;
-    if(compCount >= 3) document.getElementById('btn-to-game').classList.remove('hidden');
+    
+    // После 3-х нажатий появляется кнопка идти дальше
+    if (compCount >= 3) {
+        const nextBtn = document.getElementById('btn-to-game');
+        if (nextBtn) nextBtn.classList.remove('hidden');
+    }
 }
 
+// --- ЛЕТАЮЩИЕ КАРТИНКИ (HELLO KITTY) ---
 window.onload = () => {
     const box = document.getElementById('compliment-box');
-    if(box) {
+    if (box) {
         box.addEventListener('touchstart', handleCompliment, {passive: false});
         box.addEventListener('click', handleCompliment);
     }
 
     const container = document.getElementById('particles-container');
-    const images = ['1.png', '2.png', '3.png'];
+    const images = ['1.png', '2.png', '3.png']; // Лежат в корне репозитория
+    
     for (let i = 0; i < 12; i++) {
         setTimeout(() => {
             const img = document.createElement('img');
@@ -55,10 +83,18 @@ window.onload = () => {
     }
 };
 
+// --- ЛОГИКА ИГРЫ MEMORY ---
+let matchedPairs = 0; 
+let flipped = [];
+
 function initGame() {
+    matchedPairs = 0; 
+    flipped = [];
     const icons = ['🌸', '🐱', '🎀', '🌸', '🐱', '🎀'];
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
+    
+    // Перемешиваем иконки
     icons.sort(() => Math.random() - 0.5);
     
     icons.forEach(icon => {
@@ -69,58 +105,91 @@ function initGame() {
         
         const flipAction = (e) => {
             if (e) e.preventDefault();
+            
+            // Условие: можно нажать, если открыто меньше 2-х карт и карта еще не открыта
             if (flipped.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
                 vibrate();
                 card.classList.add('flipped');
                 card.innerHTML = card.dataset.icon;
                 flipped.push(card);
-                if (flipped.length === 2) setTimeout(checkMatch, 600);
+                
+                if (flipped.length === 2) {
+                    setTimeout(checkMatch, 600);
+                }
             }
         };
 
+        // Поддержка и тапа, и клика
         card.addEventListener('touchstart', flipAction, {passive: false});
         card.addEventListener('click', flipAction);
         grid.appendChild(card);
     });
 }
 
-let flipped = [];
 function checkMatch() {
-    if (flipped[0].dataset.icon === flipped[1].dataset.icon) {
-        flipped.forEach(c => {
-            c.classList.add('matched');
-            c.style.backgroundColor = '#4caf50';
-        });
-        const totalMatched = document.querySelectorAll('.card-game.matched').length;
-        if (totalMatched === 6) {
-            vibrate();
+    const [card1, card2] = flipped;
+    
+    if (card1.dataset.icon === card2.dataset.icon) {
+        // Пара совпала
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        matchedPairs++; 
+        vibrate();
+        
+        // Если все 3 пары найдены — идем на экран 4
+        if (matchedPairs === 3) {
             setTimeout(() => next(4), 800);
         }
     } else {
-        flipped.forEach(c => {
-            c.classList.remove('flipped');
-            c.innerHTML = '?';
-        });
+        // Не совпало — закрываем карты обратно
+        card1.classList.remove('flipped');
+        card2.classList.remove('flipped');
+        card1.innerHTML = '?';
+        card2.innerHTML = '?';
     }
     flipped = [];
 }
 
+// --- ЛОГИКА СКРЕТЧ-КАРТЫ (СТИРАШКИ) ---
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
+    if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
+    
+    // Рисуем защитный слой
     ctx.fillStyle = '#d3d3d3';
     ctx.fillRect(0, 0, 250, 150);
+    
     let points = 0;
     const scratch = (e) => {
         const rect = canvas.getBoundingClientRect();
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        
         const x = clientX - rect.left;
         const y = clientY - rect.top;
+        
+        // "Стираем" пиксели
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); 
+        ctx.arc(x, y, 20, 0, Math.PI * 2); 
+        ctx.fill();
+        
         points++;
-        if(points > 60) document.getElementById('btn-to-final').classList.remove('hidden');
+        // Если потерли достаточно много — показываем кнопку финала
+        if (points > 60) {
+            const finalBtn = document.getElementById('btn-to-final');
+            if (finalBtn) finalBtn.classList.remove('hidden');
+        }
     };
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, {passive: false});
+
+    canvas.addEventListener('touchmove', (e) => { 
+        e.preventDefault(); 
+        scratch(e); 
+    }, {passive: false});
+    
+    canvas.addEventListener('mousemove', (e) => {
+        if (e.buttons === 1) scratch(e);
+    });
 }
