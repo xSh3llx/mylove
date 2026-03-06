@@ -3,9 +3,9 @@
 body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
 
 .container { 
-    width: 90%; max-width: 350px; background: white; padding: 25px; 
+    width: 90%; max-width: 350px; background: rgba(255, 255, 255, 0.95); padding: 25px; 
     border-radius: 30px; box-shadow: 0 15px 35px rgba(214, 51, 132, 0.15); 
-    text-align: center; z-index: 10; transition: 0.4s; 
+    text-align: center; z-index: 10; backdrop-filter: blur(10px); transition: 0.4s; 
 }
 .hidden { display: none; opacity: 0; transform: translateY(20px); }
 
@@ -26,11 +26,17 @@ p { color: #555; font-size: 15px; }
     display: flex; align-items: center; justify-content: center; cursor: pointer;
 }
 
-#scratch-container { position: relative; width: 250px; height: 150px; margin: 15px auto; border-radius: 15px; overflow: hidden; border: 1px solid #eee; }
-canvas#scratch-canvas { position: absolute; top: 0; left: 0; touch-action: none; }
-.scratch-text { font-weight: 900; color: var(--accent); font-size: 18px; }
+#scratch-container { position: relative; width: 250px; height: 150px; margin: 15px auto; border-radius: 15px; overflow: hidden; border: 1px solid #eee; background: white; display: flex; align-items: center; justify-content: center; }
+canvas#scratch-canvas { position: absolute; top: 0; left: 0; touch-action: none; z-index: 2; }
+.scratch-text { font-weight: 900; color: var(--accent); font-size: 18px; z-index: 1; }
 
-#particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-.particle { position: absolute; bottom: -60px; animation: flyUp linear infinite; }
-@keyframes flyUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-110vh); opacity: 0; } }
+#particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.particle { position: absolute; bottom: -100px; animation: flyUp linear infinite; filter: drop-shadow(0 0 5px rgba(255, 77, 148, 0.2)); }
+
+@keyframes flyUp { 
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; } 
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } 
+}
 .emoji-header { font-size: 50px; }
