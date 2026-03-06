@@ -54,48 +54,49 @@ window.onload = () => {
     }
 };
 
-let matched = 0;
-let flipped = [];
+// --- НОВАЯ ИГРА: ЛОВЛЯ СЕРДЕЧЕК ---
+let score = 0;
+let gameInterval;
 
 function initGame() {
-    matched = 0; flipped = [];
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
-    const icons = ['🌸', '🐱', '🎀', '🌸', '🐱', '🎀'].sort(() => Math.random() - 0.5);
-    icons.forEach(icon => {
-        const card = document.createElement('div');
-        card.className = 'card-game';
-        card.dataset.icon = icon;
-        card.innerHTML = '?';
-        const flip = (e) => {
-            if (e) e.preventDefault();
-            if (flipped.length < 2 && !card.classList.contains('flipped')) {
-                vibrate();
-                card.classList.add('flipped');
-                card.innerHTML = card.dataset.icon;
-                flipped.push(card);
-                if (flipped.length === 2) setTimeout(check, 600);
-            }
-        };
-        card.addEventListener('touchstart', flip);
-        card.addEventListener('click', flip);
-        grid.appendChild(card);
-    });
+    score = 0;
+    const area = document.getElementById('game-area');
+    area.innerHTML = '';
+    document.getElementById('game-score').innerText = "Złapano: 0 / 5";
+    document.getElementById('game-next-container').innerHTML = '';
+
+    gameInterval = setInterval(() => {
+        if (score < 5) createHeart();
+        else clearInterval(gameInterval);
+    }, 1000);
 }
 
-function check() {
-    if (flipped[0].dataset.icon === flipped[1].dataset.icon) {
-        flipped.forEach(c => c.classList.add('matched'));
-        matched++;
-        if (matched === 3) {
-            document.getElementById('game-next-container').innerHTML = '<button class="btn" onclick="next(4)">Dalej ✨</button>';
+function createHeart() {
+    const area = document.getElementById('game-area');
+    const heart = document.createElement('div');
+    heart.className = 'heart-pop';
+    heart.innerHTML = '❤️';
+    heart.style.left = Math.random() * (area.clientWidth - 50) + 'px';
+    heart.style.top = Math.random() * (area.clientHeight - 50) + 'px';
+
+    const pop = (e) => {
+        if (e) e.preventDefault();
+        vibrate();
+        score++;
+        heart.remove();
+        document.getElementById('game-score').innerText = `Złapano: ${score} / 5`;
+        if (score === 5) {
+            document.getElementById('game-next-container').innerHTML = '<button class="btn" onclick="next(4)">Super, Wiki! Dalej ✨</button>';
         }
-    } else {
-        flipped.forEach(c => { c.classList.remove('flipped'); c.innerHTML = '?'; });
-    }
-    flipped = [];
+    };
+
+    heart.addEventListener('touchstart', pop);
+    heart.addEventListener('click', pop);
+    area.appendChild(heart);
+    setTimeout(() => { if(heart) heart.remove(); }, 2000);
 }
 
+// --- СКРЕТЧ-КАРТА ---
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
@@ -103,11 +104,14 @@ function initScratch() {
     ctx.fillRect(0, 0, 250, 150);
     const scratch = (e) => {
         const rect = canvas.getBoundingClientRect();
-        const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-        const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
         if (Math.random() > 0.9) document.getElementById('btn-to-final').classList.remove('hidden');
     };
     canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
+    canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
 }
