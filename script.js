@@ -13,27 +13,30 @@ function next(num) {
     }, 400);
 }
 
-// 1. Комплименты
 const compliments = [
-    "Twój uśmiech rozjaśnia każdy dzień! ☀️",
-    "Jesteś niesamowicie mądra i zdolna! 🧠",
-    "Masz najlepszy styl na świecie! 👗",
-    "Twoja energia jest po prostu zaraźliwa! ⚡",
+    "Wiki, Twoje wsparcie jest nieocenione! ❤️",
+    "Wiki, masz najpiękniejszy uśmiech! 😊",
+    "Jesteś niesamowicie mądra, Wiki! 🧠",
+    "Wiki, Twoja energia jest zaraźliwa! ⚡",
     "Zawsze potrafisz mnie rozśmieszyć! 😂",
-    "Jesteś najpiękniejszą osobą, jaką znam! 💖"
+    "Jesteś po prostu najlepsza, Wiki! 👑"
 ];
+
 let compCount = 0;
-function getRandomCompliment() {
+function handleCompliment(e) {
+    if (e) e.preventDefault();
     vibrate();
     const box = document.getElementById('compliment-box');
-    const randomComp = compliments[Math.floor(Math.random() * compliments.length)];
-    box.innerText = randomComp;
+    box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
     compCount++;
     if(compCount >= 3) document.getElementById('btn-to-game').classList.remove('hidden');
 }
 
-// 2. Частицы (Hello Kitty)
 window.onload = () => {
+    const box = document.getElementById('compliment-box');
+    box.addEventListener('touchstart', handleCompliment, {passive: false});
+    box.addEventListener('click', handleCompliment);
+
     const container = document.getElementById('particles-container');
     const images = ['1.png', '2.png', '3.png'];
     for (let i = 0; i < 12; i++) {
@@ -50,7 +53,6 @@ window.onload = () => {
     }
 };
 
-// 3. Игра Memory
 function initGame() {
     const icons = ['🌸', '🐱', '🎀', '🌸', '🐱', '🎀'];
     const grid = document.getElementById('grid');
@@ -61,7 +63,7 @@ function initGame() {
         card.className = 'card-game';
         card.dataset.icon = icon;
         card.innerHTML = '?';
-        card.onclick = () => {
+        const flipAction = () => {
             if (flipped.length < 2 && !card.classList.contains('flipped')) {
                 vibrate();
                 card.classList.add('flipped');
@@ -70,6 +72,8 @@ function initGame() {
                 if (flipped.length === 2) setTimeout(checkMatch, 600);
             }
         };
+        card.addEventListener('click', flipAction);
+        card.addEventListener('touchstart', (e) => { e.preventDefault(); flipAction(); });
         grid.appendChild(card);
     });
 }
@@ -93,29 +97,22 @@ function checkMatch() {
     flipped = [];
 }
 
-// 4. Скретч-карта
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#d3d3d3';
     ctx.fillRect(0, 0, 250, 150);
-    
-    let scratchPoints = 0;
-    const handleScratch = (e) => {
+    let points = 0;
+    const scratch = (e) => {
         const rect = canvas.getBoundingClientRect();
-        const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-        const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-        
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath();
-        ctx.arc(x, y, 20, 0, Math.PI * 2);
-        ctx.fill();
-        
-        scratchPoints++;
-        if(scratchPoints > 50) {
-            document.getElementById('btn-to-final').classList.remove('hidden');
-        }
+        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
+        points++;
+        if(points > 60) document.getElementById('btn-to-final').classList.remove('hidden');
     };
-
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleScratch(e); }, { passive: false });
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, {passive: false});
 }
