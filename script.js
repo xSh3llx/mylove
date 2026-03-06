@@ -54,17 +54,13 @@ window.onload = () => {
     }
 };
 
-// --- НОВАЯ ИГРА: ЛОВЛЯ СЕРДЕЧЕК ---
 let score = 0;
 let gameInterval;
-
 function initGame() {
     score = 0;
     const area = document.getElementById('game-area');
     area.innerHTML = '';
     document.getElementById('game-score').innerText = "Złapano: 0 / 5";
-    document.getElementById('game-next-container').innerHTML = '';
-
     gameInterval = setInterval(() => {
         if (score < 5) createHeart();
         else clearInterval(gameInterval);
@@ -78,7 +74,6 @@ function createHeart() {
     heart.innerHTML = '❤️';
     heart.style.left = Math.random() * (area.clientWidth - 50) + 'px';
     heart.style.top = Math.random() * (area.clientHeight - 50) + 'px';
-
     const pop = (e) => {
         if (e) e.preventDefault();
         vibrate();
@@ -86,17 +81,15 @@ function createHeart() {
         heart.remove();
         document.getElementById('game-score').innerText = `Złapano: ${score} / 5`;
         if (score === 5) {
-            document.getElementById('game-next-container').innerHTML = '<button class="btn" onclick="next(4)">Super, Wiki! Dalej ✨</button>';
+            document.getElementById('game-next-container').innerHTML = '<button class="btn" onclick="next(4)">Dalej ✨</button>';
         }
     };
-
     heart.addEventListener('touchstart', pop);
     heart.addEventListener('click', pop);
     area.appendChild(heart);
     setTimeout(() => { if(heart) heart.remove(); }, 2000);
 }
 
-// --- СКРЕТЧ-КАРТА ---
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
@@ -110,8 +103,7 @@ function initScratch() {
         const y = clientY - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
-        if (Math.random() > 0.9) document.getElementById('btn-to-final').classList.remove('hidden');
+        if (Math.random() > 0.95) document.getElementById('btn-to-final').classList.remove('hidden');
     };
     canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
-    canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
 }
