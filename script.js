@@ -10,8 +10,7 @@ function next(num) {
     if (target) {
         target.style.display = 'block';
         setTimeout(() => target.classList.remove('hidden'), 50);
-        if (num === 3) initGame();
-        if (num === 4) initScratch();
+        if (num === 3) initScratch();
     }
 }
 
@@ -30,7 +29,7 @@ function handleComp(e) {
     const box = document.getElementById('compliment-box');
     box.innerText = compliments[Math.floor(Math.random() * compliments.length)];
     compCount++;
-    if (compCount >= 3) document.getElementById('btn-to-game').classList.remove('hidden');
+    if (compCount >= 3) document.getElementById('btn-to-scratch').classList.remove('hidden');
 }
 
 window.onload = () => {
@@ -54,47 +53,12 @@ window.onload = () => {
     }
 };
 
-let score = 0;
-let gameInterval;
-function initGame() {
-    score = 0;
-    const area = document.getElementById('game-area');
-    area.innerHTML = '';
-    document.getElementById('game-score').innerText = "Złapano: 0 / 5";
-    gameInterval = setInterval(() => {
-        if (score < 5) createHeart();
-        else clearInterval(gameInterval);
-    }, 1000);
-}
-
-function createHeart() {
-    const area = document.getElementById('game-area');
-    const heart = document.createElement('div');
-    heart.className = 'heart-pop';
-    heart.innerHTML = '❤️';
-    heart.style.left = Math.random() * (area.clientWidth - 50) + 'px';
-    heart.style.top = Math.random() * (area.clientHeight - 50) + 'px';
-    const pop = (e) => {
-        if (e) e.preventDefault();
-        vibrate();
-        score++;
-        heart.remove();
-        document.getElementById('game-score').innerText = `Złapano: ${score} / 5`;
-        if (score === 5) {
-            document.getElementById('game-next-container').innerHTML = '<button class="btn" onclick="next(4)">Dalej ✨</button>';
-        }
-    };
-    heart.addEventListener('touchstart', pop);
-    heart.addEventListener('click', pop);
-    area.appendChild(heart);
-    setTimeout(() => { if(heart) heart.remove(); }, 2000);
-}
-
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#d3d3d3';
     ctx.fillRect(0, 0, 250, 150);
+    
     const scratch = (e) => {
         const rect = canvas.getBoundingClientRect();
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -103,7 +67,11 @@ function initScratch() {
         const y = clientY - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
-        if (Math.random() > 0.95) document.getElementById('btn-to-final').classList.remove('hidden');
+        
+        // Показываем кнопку перехода, когда стерто достаточно
+        if (Math.random() > 0.96) document.getElementById('btn-to-final').classList.remove('hidden');
     };
+    
     canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
+    canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
 }
