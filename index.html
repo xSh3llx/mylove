@@ -2,39 +2,43 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Dla Ciebie ✨</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="particles-container"></div>
 
     <div id="s1" class="container">
-        <div class="hearts">🌸</div>
+        <div class="emoji-header">🐱🎀</div>
         <h1>Cześć, kochana!</h1>
-        <p>Stworzyłem tę małą stronę specjalnie dla Ciebie z okazji 8 marca. Jesteś gotowa?</p>
-        <button class="btn" onclick="next(2)">Otwórz niespodziankę</button>
+        <p>Zrobiłem coś specjalnego tylko dla Ciebie. Masz chwilę na małą niespodziankę?</p>
+        <button class="btn" onclick="next(2)">Jasne, dawaj! ✨</button>
     </div>
 
     <div id="s2" class="container hidden">
-        <h1>Dlaczego jesteś super?</h1>
-        <div class="reason">🌟 Zawsze wspierasz w każdej sytuacji</div>
-        <div class="reason">💖 Masz najfajniejszą energię na świecie</div>
-        <div class="reason">😂 Twoje żarty to czyste złoto</div>
-        <div class="reason">👑 Po prostu jesteś najlepszą przyjaciółką!</div>
-        <button class="btn" onclick="next(3)">Zagrajmy w coś!</button>
+        <h1>Dlaczego jesteś wyjątkowa?</h1>
+        <div class="reason">🌟 Masz niesamowitą energię, która zaraża wszystkich wokoło.</div>
+        <div class="reason">💖 Twoje wsparcie jest dla mnie mega ważne.</div>
+        <div class="reason">😂 Nikt nie ma takiego poczucia humoru jak Ty!</div>
+        <div class="reason">👑 Jesteś po prostu najlepszą wersją siebie.</div>
+        <button class="btn" onclick="next(3)">Zagrajmy w grę 🎮</button>
     </div>
 
     <div id="s3" class="container hidden">
         <h1>Znajdź pary!</h1>
-        <p>Dopasuj wszystkie wiosenne symbole</p>
+        <p>Mały test na spostrzegawczość...</p>
         <div class="grid" id="grid"></div>
     </div>
 
     <div id="s4" class="container hidden">
-        <div class="hearts">🥳</div>
+        <div class="emoji-header">🥳💖🌷</div>
         <h1>Najlepszego!</h1>
-        <p>Wszystkiego najlepszego z okazji Dnia Kobiet! Niech ten dzień będzie tak wspaniały, jak Ty. Ściskam mocno! 🤗</p>
-        <button class="btn" onclick="location.reload()">Jeszcze raz?</button>
+        <p>Wszystkiego, co najpiękniejsze z okazji Dnia Kobiet! Bądź zawsze tak urocza i silna jednocześnie. Ściskam!</p>
+        <div class="signature">Twój ulubiony programista 😉</div>
+        <button class="btn secondary" onclick="location.reload()">Zagraj jeszcze raz</button>
     </div>
 
     <script src="script.js"></script>
