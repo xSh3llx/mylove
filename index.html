@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Dla Ciebie ✨</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,30 +13,38 @@
     <div id="s1" class="container">
         <div class="emoji-header">🐱🎀</div>
         <h1>Cześć, kochana!</h1>
-        <p>Zrobiłem coś specjalnego tylko dla Ciebie. Masz chwilę na małą niespodziankę?</p>
-        <button class="btn" onclick="next(2)">Jasne, dawaj! ✨</button>
+        <p>Przygotowałem dla Ciebie coś, co udowodni, że jesteś absolutnie wyjątkowa. Gotowa na przygodę?</p>
+        <button class="btn" onclick="next(2)">Jasne, zaczynajmy! ✨</button>
     </div>
 
     <div id="s2" class="container hidden">
-        <h1>Dlaczego jesteś wyjątkowa?</h1>
-        <div class="reason">🌟 Masz niesamowitą energię, która zaraża wszystkich wokoło.</div>
-        <div class="reason">💖 Twoje wsparcie jest dla mnie mega ważne.</div>
-        <div class="reason">😂 Nikt nie ma takiego poczucia humoru jak Ty!</div>
-        <div class="reason">👑 Jesteś po prostu najlepszą wersją siebie.</div>
-        <button class="btn" onclick="next(3)">Zagrajmy w grę 🎮</button>
+        <h1>Co w Tobie uwielbiam?</h1>
+        <p>Kliknij w serce, aby wylosować powód:</p>
+        <div id="compliment-box" class="reason" onclick="getRandomCompliment()">💖 Kliknij tutaj...</div>
+        <button id="btn-to-game" class="btn hidden" onclick="next(3)">To nie wszystko! 🎮</button>
     </div>
 
     <div id="s3" class="container hidden">
         <h1>Znajdź pary!</h1>
-        <p>Mały test na spostrzegawczość...</p>
+        <p>Mały test na skupienie...</p>
         <div class="grid" id="grid"></div>
     </div>
 
     <div id="s4" class="container hidden">
-        <div class="emoji-header">🥳💖🌷</div>
-        <h1>Najlepszego!</h1>
-        <p>Wszystkiego, co najpiękniejsze z okazji Dnia Kobiet! Bądź zawsze tak urocza i silna jednocześnie. Ściskam!</p>
-        <div class="signature">Twój ulubiony programista 😉</div>
+        <h1>Twój prezent... 🎁</h1>
+        <p>Zetrzyj szarą warstwę palcem, aby odkryć wiadomość:</p>
+        <div id="scratch-container">
+            <div class="scratch-text">JESTEŚ NAJLEPSZA! 👑</div>
+            <canvas id="scratch-canvas" width="250" height="150"></canvas>
+        </div>
+        <button id="btn-to-final" class="btn hidden" onclick="next(5)">Odbierz życzenia ❤️</button>
+    </div>
+
+    <div id="s5" class="container hidden">
+        <div class="emoji-header">🥳🌷💖</div>
+        <h1>Wszystkiego najlepszego!</h1>
+        <p>Bądź zawsze tak urocza i niesamowita, jak jesteś teraz. Najlepszego z okazji Dnia Kobiet!</p>
+        <div class="signature">Zrobione specjalnie dla Ciebie ✨</div>
         <button class="btn secondary" onclick="location.reload()">Zagraj jeszcze raz</button>
     </div>
 
